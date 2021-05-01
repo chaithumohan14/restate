@@ -13,16 +13,43 @@ npm install --save restate
 ## Usage
 
 ```tsx
-import React, { Component } from 'react'
+import {ReStateProvider} from 'restate'
 
-import MyComponent from 'restate'
-import 'restate/dist/index.css'
-
-class Example extends Component {
-  render() {
-    return <MyComponent />
-  }
+const initialStates = {
+  todos:[],
+  counter:0,
 }
+
+const reducers = {
+  todos:(prevState,action) =>{
+    switch(action.type){
+      case "add":
+        return [...prevState,action.payload]
+      
+      default:
+        return prevState
+    }
+  },
+  counter:(prevState,action) =>{
+    switch(action.type){
+      case "add":
+        return prevState + 1
+      
+      case "sub":
+        return prevState > 0 ? prevState - 1 : 0
+      
+      default:
+        return prevState
+    }
+  },
+}
+
+function App = () =>{
+  return <ReStateProvider initialStates={initialStates} reducers={reducers}>
+    <div> Hello World </div>
+  </ReStateProvider>
+}
+
 ```
 
 ## License
